@@ -1,9 +1,9 @@
 const getUser = async () => {
-  const userObj = await fetch("http://localhost:3000/profile/getUser");
-  const user = await userObj.json();
+  const response = await fetch("http://localhost:3000/auth/getUser");
+  const user = await response.json();
 
   if (!user) {
-    return alert("Please login first!");
+    return location.href = "/auth/login";
   }
 
   displayUserInfo(user);
@@ -14,4 +14,6 @@ const displayUserInfo = (user) => {
 };
 
 
-window.onload(getUser());
+window.onload = () => {
+  getUser();
+};

@@ -4,10 +4,12 @@ const mongoose = require("mongoose");
 const path = require("path");
 const passport = require("passport");
 const session = require("express-session");
-var bodyParser = require('body-parser');
+var bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, "client/")));
 app.use(
   session({
@@ -17,29 +19,23 @@ app.use(
   })
 );
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/", require("./routes/index"));
 app.use("/profile", require("./routes/profile"));
 app.use("/auth", require("./routes/auth"));
-app.use("/posts", require("./routes/posts"));
+app.use("/post", require("./routes/post"));
 
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.log(err));
 
-app.get("/posts", (req, res) => {
-  res.sendFile(__dirname + "/client/html/index.html");
-});
-
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("Server is running");
 });

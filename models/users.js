@@ -8,12 +8,12 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
+    length: {
+      min: 4,
+      max: 32,
+    },
   },
   savedPosts: {
-    type: Array,
-    default: [],
-  },
-  upvotedPosts: {
     type: Array,
     default: [],
   },

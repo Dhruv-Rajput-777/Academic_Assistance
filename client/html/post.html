@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/post.css">
+</head>
+
+<body>
+    <div class="main-container bg-gray-100">
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div style="display: flex; justify-content: space-between; align-items: center;" class="px-4 py-5 sm:px-6">
+                <div style="display: inline-block;">
+                    <h3 id="title" class="text-lg leading-6 font-medium text-gray-900">Title</h3>
+                    <p id="sub-title" class="mt-1 max-w-2xl text-sm text-gray-500">Document details and Information.</p>
+                </div>
+                <div id="save-btn" style="display: inline-block;">
+                    <i onclick="savePost()" class="fa-regular fa-bookmark fa-2x cursor-pointer"></i>
+                </div>
+            </div>
+            <div class="border-t border-gray-200">
+                <dl>
+
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-700">Author</dt>
+                        <dd id="author" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Author and Author type
+                        </dd>
+                    </div>
+
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-700">Subject</dt>
+                        <dd id="subject" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Subject</dd>
+                    </div>
+
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-700">Academic Year and Department</dt>
+                        <dd id="year-dept" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">3rd Year Computer
+                            science</dd>
+                    </div>
+
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-700">Description</dt>
+                        <dd id="description" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Description</dd>
+                    </div>
+
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-700">Upload date</dt>
+                        <dd id="date" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Upload date</dd>
+                    </div>
+
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-700">Attachments</dt>
+                        <dd id="file" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <ul role="list" class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                    <div class="w-0 flex-1 flex items-center">
+                                        <!-- Heroicon name: solid/paper-clip -->
+                                        <svg class="flex-shrink-0 h-5 w-5 text-gray-400"
+                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span id="file-name" class="ml-2 flex-1 w-0 truncate"> file name
+                                        </span>
+                                    </div>
+                                    <div class="ml-4 flex-shrink-0">
+                                        <a href="javascript:downloadFile();"
+                                            class="font-medium text-indigo-600 hover:text-indigo-500"> Download
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div class="grid grid-cols-3 h-10">
+                <button onclick="upvotePost()" id="upvote-btn"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-green-400 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <!-- Heroicon name: solid/lock-closed -->
+
+                    </span>
+                    0 Upvotes
+                </button>
+                <button onclick="downvotePost()" id="downvote-btn"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-red-400 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <!-- Heroicon name: solid/lock-closed -->
+                        0 Downvotes
+                    </span>
+
+                </button>
+                <button onclick="downloadFile()" id="download-btn"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-indigo-400 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <!-- Heroicon name: solid/lock-closed -->
+                    </span>
+                    0 Downloads
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+
+    <div id="err-modal" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true" style="display: none !important;">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+            <!-- This element is to trick the browser into centering the modal contents. -->
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div
+                class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div id="modal-img-bg"
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <!-- Heroicon name: outline/exclamation -->
+                            <svg id="modal-img" class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 py-1" id="modal-title">Modal Title
+                            </h3>
+                            <!-- <hr /> -->
+                            <div class="mt-2 py-2">
+                                <h5 id="modal-body" class="text-sm text-gray-900">
+                                    Modal Body
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <!-- <button type="button"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Deactivate</button> -->
+                    <button type="button" onclick="hideModal()"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/post.js"></script>
+    <script src="https://kit.fontawesome.com/01060bdbe8.js" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
