@@ -5,13 +5,228 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Profile</title>
 </head>
 
 <body>
-    Profile
-    <a href="../auth/login">login</a>
+
+    <div id="alert-div" class="hidden bg-green-400">
+        <div class="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between flex-wrap">
+            <div class="w-0 flex-1 flex items-center">
+              <!-- <span class="flex p-2 rounded-lg"> -->
+                <!-- Heroicon name: outline/speakerphone -->
+                <i class="fa-regular fa-circle-check fa-2x text-white"></i>
+              <!-- </span> -->
+              <p class="ml-3 font-medium truncate">
+                <span id="alert-div-message" class="hidden md:inline"> Display Message Here </span>
+              </p>
+            </div>
+            <div class="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
+              <!-- <a href="#" class="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-indigo-50"> Learn more </a> -->
+            </div>
+            <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
+              <button type="button" class="-mr-1 flex p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
+                <!-- Heroicon name: outline/x -->
+                <svg onclick="removeAlert()" class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="px-5">
+
+        <div class="bg-white">
+            <div>
+                <div class="fixed inset-0 flex z-40 lg:hidden" role="dialog" aria-modal="true">
+
+                    <div class="fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"></div>
+                    <div
+                        class="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-12 flex flex-col overflow-y-auto">
+                        <div class="px-4 flex items-center justify-between">
+                            <h2 class="text-lg font-medium text-gray-900"></h2>
+                            <button type="button"
+                                class="-mr-2 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400">
+                                <span class="sr-only"></span>
+                                <!-- Heroicon name: outline/x -->
+                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="mt-4 border border-gray-200">
+
+
+                            <div class="border-t border-gray-200 px-4 py-6">
+                                <h3 class="-mx-2 -my-3 flow-root">
+                                    <!-- Expand/collapse section button -->
+                                    <button type="button"
+                                        class="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500"
+                                        aria-controls="filter-section-mobile-0" aria-expanded="false">
+                                        <span class="font-medium text-gray-900"> Color </span>
+                                        <span class="ml-6 flex items-center">
+
+                                        </span>
+                                    </button>
+                                </h3>
+
+                            </div>
+
+                            <div class="border-t border-gray-200 px-4 py-6">
+                                <h3 class="-mx-2 -my-3 flow-root">
+                                    <!-- Expand/collapse section button -->
+                                    <button type="button"
+                                        class="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500"
+                                        aria-controls="filter-section-mobile-1" aria-expanded="false">
+                                        <span class="font-medium text-gray-900"> Category </span>
+                                        <span class="ml-6 flex items-center">
+
+                                        </span>
+                                    </button>
+                                </h3>
+                            </div>
+
+                            <div class="border-t border-gray-200 px-4 py-6">
+                                <h3 class="-mx-2 -my-3 flow-root">
+                                    <!-- Expand/collapse section button -->
+                                    <button type="button"
+                                        class="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500"
+                                        aria-controls="filter-section-mobile-2" aria-expanded="false">
+                                        <span class="font-medium text-gray-900"> Size </span>
+                                        <span class="ml-6 flex items-center">
+
+                                        </span>
+                                    </button>
+                                </h3>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="relative z-10 flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
+                        <h1 class="text-4xl font-extrabold tracking-tight text-gray-900"></h1>
+                    </div>
+
+                    <section aria-labelledby="products-heading" class="pt-6 pb-24">
+                        <h2 id="products-heading" class="sr-only">Products</h2>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
+                            <!-- Filters -->
+                            <div class="hidden lg:block">
+
+                                <div id="your-documents"
+                                    class="border-b border-t border-r border-l border-gray-400 py-6 active-btn focus-visible:bg-gray-400">
+                                    <h3 class="-my-3 flow-root">
+                                        <button id="your-documents-btn" onclick="setActiveBtn('your-documents')" type="button"
+                                            class="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 focus:outline-none hover:text-gray-500"
+                                            aria-controls="filter-section-0" aria-expanded="false" autofocus>
+                                            <span class="font-medium text-gray-900 pl-2"> Your Documents </span>
+                                            <span class="ml-6 flex items-center"></span>
+                                        </button>
+                                    </h3>
+                                </div>
+
+                                <div id="saved-documents" class="border-b border-gray-400 py-6">
+                                    <h3 class="-my-3 flow-root">
+
+                                        <button id="saved-documents-btn" onclick="setActiveBtn('saved-documents')" type="button"
+                                            class="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 focus:outline-none hover:text-gray-500"
+                                            aria-controls="filter-section-1" aria-expanded="false">
+                                            <span class="font-medium text-gray-900 pl-2"> Saved Documents </span>
+                                            <span class="ml-6 flex items-center">
+
+                                            </span>
+                                        </button>
+                                    </h3>
+
+                                </div>
+
+                                <div id="statistics" class="border-b border-gray-400 py-6">
+                                    <h3 class="-my-3 flow-root">
+
+                                        <button id="statistics-btn" onclick="setActiveBtn('statistics')" type="button"
+                                            class="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 focus:outline-none hover:text-gray-500"
+                                            aria-controls="filter-section-2" aria-expanded="false">
+                                            <span class="font-medium text-gray-900 pl-2"> Statistics </span>
+                                            <span class="ml-6 flex items-center">
+                                            </span>
+                                        </button>
+                                    </h3>
+                                </div>
+
+                                <div id="settings" class="border-b border-gray-400 py-6">
+                                    <h3 class="-my-3 flow-root">
+
+                                        <button id="settings-btn" onclick="setActiveBtn('settings')" type="button"
+                                            class="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 focus:outline-none hover:text-gray-500"
+                                            aria-controls="filter-section-2" aria-expanded="false">
+                                            <span class="font-medium text-gray-900 pl-2"> Settings </span>
+                                            <span class="ml-6 flex items-center">
+                                            </span>
+                                        </button>
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <!-- Product grid -->
+                            <div class="lg:col-span-3">
+                                <div class="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full">
+
+                                    <div class="bg-white p-5">
+
+                                        <div id="right-container"
+                                            class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+
+                                            <!-- sample card -->
+                                            <!-- <div class="group relative cursor-pointer">
+                                                <div
+                                                    class="file-type-img min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden p-5 group-hover:opacity-75 lg:h-80 lg:aspect-none flex justify-center">
+                                                    <i class="fa-solid fa-file-pdf fa-7x" style="color:#ff3333;"></i>
+                                                </div>
+                                                <div class="mt-4">
+
+                                                    <h3 class="title text-sm font-medium text-gray-900">
+                                                        Engineering Mathematics 4
+                                                    </h3>
+
+                                                    <div class="mt-1 text-xs text-gray-700">Upload Date :
+                                                        <span class="upload-date text-xs text-gray-700">
+                                                            14-02-2022
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+
+
+                                            <!-- More products... -->
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+
     <script src="../js/profile.js"></script>
+    <script src="https://kit.fontawesome.com/01060bdbe8.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
