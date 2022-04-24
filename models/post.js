@@ -31,7 +31,7 @@ const postSchema = new mongoose.Schema({
     default: "",
   },
   file: {
-    type: mongoose.Schema.Types.Mixed,
+    type: Object,
     required: true,
   },
   fileType: {

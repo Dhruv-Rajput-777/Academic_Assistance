@@ -1,24 +1,34 @@
 const Post = require("../models/post");
 const formidable = require("formidable");
 const fs = require("fs");
+const path = require("path");
 
 const addPost = async (req, res) => {
   try {
-    const form = new formidable.IncomingForm({ maxFileSize: 10 * 1024 * 1024 });
+    const uploadDir = path.join(__dirname, "..", "uploads");
+    const form = new formidable.IncomingForm({
+      maxFileSize: 10 * 1024 * 1024,
+      uploadDir,
+      keepExtensions: true,
+    });
     form.parse(req, async (err, fields, files) => {
       if (err) {
         console.log(err);
         return res.status(500).send({ err });
       }
-
+      const file = files.file;
       const post = new Post(fields);
-      post.file = files.file;
+      post.file = {
+        originalFilename: file.originalFilename,
+        path: file.filepath,
+        mimetype: file.mimetype,
+      };
+
       const data = await post.save();
 
       let user = req.user;
       user.uploadedPosts.push(data.id);
       await user.save();
-
       res.status(200).send({ postId: data.id });
     });
   } catch (err) {
@@ -67,9 +77,7 @@ const getFile = async (req, res) => {
   let postId = req.query.postId;
   try {
     let post = await Post.findById(postId);
-    const readStream = fs.createReadStream(post.file.filepath);
-    readStream.pipe(res);
-
+    res.sendFile(post.file.path);
     post.downloads++;
     await post.save();
   } catch (err) {
