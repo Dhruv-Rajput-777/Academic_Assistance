@@ -28,6 +28,11 @@ app.use("/profile", require("./routes/profile"));
 app.use("/auth", require("./routes/auth"));
 app.use("/post", require("./routes/post"));
 app.use("/api", require("./routes/api"));
+app.use("/support", require("./routes/support"));
+
+app.get("*", (req, res) => {
+  return res.redirect("/");
+});
 
 mongoose
   .connect(process.env.MONGO_URI, {
