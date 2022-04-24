@@ -241,7 +241,7 @@ const getPosts = async () => {
     }),
   });
   const posts = await response.json();
-  if (response.status !== 200) {
+  if (response.status !== 200 || posts.posts.length === 0) {
     const postContainer = document.getElementById("post-container");
     postContainer.replaceChildren();
     postContainer.innerHTML = `<div class="font-md">No documents found!</div>`;
