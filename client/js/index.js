@@ -153,6 +153,13 @@ const setPagination = () => {
   checkPageNumber();
 };
 
+const resetPagination = () => {
+  const pageNumberDiv = document.getElementById("page-number");
+  pageNumberDiv.innerHTML = 1;
+  localStorage.setItem("pageNumber", 1);
+  checkPageNumber();
+};
+
 const getPageNumber = () => {
   const pageNumber = document.getElementById("page-number");
   return parseInt(pageNumber.innerHTML);
@@ -170,7 +177,7 @@ const setPageNumber = (nos) => {
   }
   pageNumberDiv.innerHTML = pageNumber + nos;
   checkPageNumber();
-  getPosts();
+  getPosts(false);
 };
 
 // Suggestions
@@ -221,7 +228,9 @@ const hideSuggestions = () => {
 
 // posts
 
-const getPosts = async () => {
+const getPosts = async (resetPage = true) => {
+  if (resetPage) resetPagination();
+
   const searchText = document.getElementById("search-text").value.trim();
   const searchTextType = getSearchTextType();
   const sortType = getSortType();
