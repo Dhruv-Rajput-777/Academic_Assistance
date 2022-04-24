@@ -1,26 +1,4 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-nav{
-    height: 8vh;
-}
-
-.main{
-    display: flex;
-    height: 92vh;
-}
-
-.menu{
-    width:20vw;
-    height: 100%;
-    border: 2px solid black;
-}
-
-.container{
-    width: 80vw;
-    height: 100%;
-    border: 2px solid black;
+.disable{
+    pointer-events: none;
+    opacity: 0.3;
 }

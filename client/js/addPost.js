@@ -49,7 +49,7 @@ const addPost = async (e) => {
       `The following error occured while adding your post </br> ${data.err.message}`
     );
   }
-console.log(data);
+
   showModal(
     "success",
     "Post added Successfully !",

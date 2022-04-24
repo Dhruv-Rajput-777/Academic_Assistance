@@ -42,9 +42,17 @@ const postSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  upvoteCount: {
+    type: Number,
+    default: 0,
+  },
   downvotes: {
     type: Array,
     default: [],
+  },
+  downvoteCount: {
+    type: Number,
+    default: 0,
   },
   downloads: {
     type: Number,

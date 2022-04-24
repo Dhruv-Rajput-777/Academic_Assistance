@@ -9,16 +9,7 @@
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="h-full">
-
-    <!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-gray-50">
-  <body class="h-full">
-  ```
--->
+<body class="h-full ">
     <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="border-solid border-2 rounded-xl p-20 max-w-md w-full space-y-8">
             <div>
@@ -26,8 +17,9 @@
                     alt="Workflow">
                 <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Create an account</h2>
                 <p class="mt-2 text-center text-sm text-gray-600">
-                    
-                    <a href="/auth/login" class="font-medium text-indigo-600 hover:text-indigo-500"> Already have an account? Login here
+
+                    <a href="/auth/login" class="font-medium text-indigo-600 hover:text-indigo-500"> Already have an
+                        account? Login here
                     </a>
                 </p>
             </div>
@@ -35,10 +27,10 @@
                 <input type="hidden" name="remember" value="true">
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div class="mb-2">
-                        <label for="email-address" class="sr-only">Username</label>
-                        <input id="email-address" name="username" type="text" required
+                        <label for="username" class="sr-only">Username</label>
+                        <input id="username" name="username" type="text" required
                             class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                            placeholder="Username">
+                            placeholder="Username" oninput="checkUsername(event)">
                     </div>
                     <div>
                         <label for="password" class="sr-only">Password</label>
@@ -60,10 +52,14 @@
                         </a>
                     </div>
                 </div> -->
+                <div id="error" class="mt-0 hidden font-xs">
+
+                </div>
 
                 <div>
-                    <button type="submit"
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button id="signup-btn" type="submit"
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white disabled:opacity-50 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        disabled>
                         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                             <!-- Heroicon name: solid/lock-closed -->
                             <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
@@ -81,6 +77,7 @@
         </div>
     </div>
 
+    <script src="../js/auth.js"></script>
 </body>
 
 </html>

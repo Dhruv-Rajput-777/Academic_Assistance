@@ -33,8 +33,8 @@ const getPost = async (req, res) => {
     let post = await Post.findById(postId);
     let modifiedPost = {
       ...post._doc,
-      ["upvotes"]: post.upvotes.length,
-      ["downvotes"]: post.downvotes.length,
+      ["upvotes"]: post.upvoteCount,
+      ["downvotes"]: post.downvoteCount,
       ["isVoted"]: isPostVoted(req, post),
       ["isSaved"]: isPostSaved(req, postId),
       ["filename"]: post.file.originalFilename,
@@ -121,9 +121,11 @@ const upvotePost = async (req, res) => {
     upvotes = 1;
     if (hasDownvoted) {
       post.downvotes = post.downvotes.filter((id) => id !== userId);
+      post.downvoteCount--;
       downvotes = -1;
     }
     post.upvotes.push(userId);
+    post.upvoteCount++;
     await post.save();
     return res.status(200).send({ upvotes, downvotes });
   } catch (err) {
@@ -154,9 +156,11 @@ const downvotePost = async (req, res) => {
     downvotes = 1;
     if (hasUpvoted) {
       post.upvotes = post.upvotes.filter((id) => id !== userId);
+      post.upvoteCount--;
       upvotes = -1;
     }
     post.downvotes.push(userId);
+    post.downvoteCount++;
     await post.save();
     return res.status(200).send({ upvotes, downvotes });
   } catch (err) {
@@ -165,11 +169,8 @@ const downvotePost = async (req, res) => {
   }
 };
 
-const deletePost = async (req, res) => {};
-
 module.exports = {
   addPost,
-  deletePost,
   getPost,
   getFile,
   savePost,

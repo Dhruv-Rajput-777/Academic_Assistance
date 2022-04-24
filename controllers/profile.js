@@ -13,6 +13,7 @@ const getPosts = async (req, res) => {
       posts.push({
         id: post._id,
         title: post.title,
+        description : post.description,
         timestamp: post.timestamp,
         filetype: post.file.mimetype,
       });
@@ -51,6 +52,7 @@ const getSavedPosts = async (req, res) => {
       posts.push({
         id: post._id,
         title: post.title,
+        description : post.description,
         timestamp: post.timestamp,
         filetype: post.file.mimetype,
       });

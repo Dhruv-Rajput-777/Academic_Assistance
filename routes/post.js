@@ -5,7 +5,6 @@ const {
   addPost,
   getPost,
   getFile,
-  deletePost,
   upvotePost,
   downvotePost,
   savePost,
@@ -26,8 +25,6 @@ router.get("/getPost", getPost);
 router.get("/getFile", getFile);
 
 router.get("/savePost", savePost);
-
-router.get("/deletePost", deletePost);
 
 router.get("/upvotePost", upvotePost);
 

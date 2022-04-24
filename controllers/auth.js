@@ -12,34 +12,59 @@ passport.deserializeUser(function (id, done) {
 });
 
 const loginUser = (req, res) => {
-  const user = { username: req.body.username, password: req.body.password };
-  passport.authenticate("local", (err, user, info) => {
-    if (err) {
-      return res.status(401).send(err);
-    }
-    if (!user) {
-      return res.status(401).send(info);
-    }
-    req.logIn(user, (err) => {
+  try {
+    const user = { username: req.body.username, password: req.body.password };
+    passport.authenticate("local", (err, user, info) => {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(401).send(err);
       }
-      return res.status(200).send(user);
-    });
-  })(req, res);
+      if (!user) {
+        return res.status(401).send(info);
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.status(200).send(user);
+      });
+    })(req, res);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err.message);
+  }
+};
+
+const checkUsername = async (req, res) => {
+  try {
+    const username = req.query.username;
+    const user = await Users.findOne({ username });
+    if (user) {
+      return res.status(200).send({ userExists: true });
+    } else {
+      return res.status(200).send({ userExists: false });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err.message);
+  }
 };
 
 const registerUser = (req, res) => {
-  const { username, password } = req.body;
-  Users.register({ username }, password, (err, user) => {
-    if (err) {
-      console.log(err);
-      return res.redirect("/auth/signup");
-    }
-    passport.authenticate("local")(req, res, () => {
-      return res.redirect("/");
+  try {
+    const { username, password } = req.body;
+    Users.register({ username }, password, (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/auth/signup");
+      }
+      passport.authenticate("local")(req, res, () => {
+        return res.redirect("/");
+      });
     });
-  });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err.message);
+  }
 };
 
 const logoutUser = (req, res) => {
@@ -54,4 +79,4 @@ const getUser = (req, res) => {
   return res.status(400).send(null);
 };
 
-module.exports = { loginUser, registerUser, logoutUser, getUser };
+module.exports = { loginUser, registerUser, logoutUser, getUser, checkUsername};

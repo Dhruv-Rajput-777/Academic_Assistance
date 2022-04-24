@@ -11,9 +11,59 @@
 </head>
 
 <body>
-    <div class="main-container bg-gray-100">
-        <!-- This example requires Tailwind CSS v2.0+ -->
-        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+
+    <!-- navbar -->
+    <div id="navbar" class="bg-white">
+        <header class="relative bg-white">
+            <nav aria-label="Top" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="border-b border-gray-200">
+                    <div class="h-16 flex items-center">
+
+                        <!-- Logo -->
+                        <div class="ml-4 flex lg:ml-0">
+                            <a href="/">
+                                <span class="sr-only">Workflow</span>
+                                <img class="h-8 w-auto"
+                                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                                    alt="Logo">
+                            </a>
+                        </div>
+
+                        <!-- Flyout menus -->
+                        <div class="lg:ml-8">
+                            <div class="h-full flex space-x-8">
+                                <a href="/"
+                                    class="flex items-center text-sm font-medium text-gray-900 hover:text-gray-800">Home</a>
+
+                                <a href="/contact"
+                                    class="flex items-center text-sm font-medium text-gray-900 hover:text-gray-800">Support</a>
+
+                                <a href="/auth/signup"
+                                    class="flex items-center text-sm font-medium text-gray-900 hover:text-gray-800">Signup</a>
+                            </div>
+                        </div>
+
+                        <div class="ml-auto flex items-center">
+
+                            <div class="flex items-center ml-4 flow-root lg:ml-6">
+                                <a href="/profile" class="group -m-2 p-2 flex items-center">
+                                    <i class="fa-solid fa-circle-user text-indigo-600 fa-lg"></i>
+                                    <span class="ml-2 text-sm font-medium flex text-gray-900 group-hover:text-gray-800">
+                                        Your Profile
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+    <!-- main body -->
+    <div class="main-container bg-white w-full mt-8 flex justify-center items-center">
+        <div class="bg-white shadow-2xl shadow-green-900 rounded-lg border border-gray-200 max-w-3xl">
+
             <div style="display: flex; justify-content: space-between; align-items: center;" class="px-4 py-5 sm:px-6">
                 <div style="display: inline-block;">
                     <h3 id="title" class="text-lg leading-6 font-medium text-gray-900">Title</h3>

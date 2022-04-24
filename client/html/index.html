@@ -7,30 +7,566 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Academic Assistance</title>
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 
 <body>
 
+    <!-- navbar -->
+    <div id="navbar" class="bg-white">
+        <header class="relative bg-white">
+            <nav aria-label="Top" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="border-b border-gray-200">
+                    <div class="h-16 flex items-center">
 
-    <!-- component -->
-    <!-- This is an example component -->
-    <div>
-        <div class="pt-2 relative mx-auto text-gray-600">
-            <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-                type="search" name="search" placeholder="Search">
-            <button type="submit" class="absolute right-0 top-0 mt-5 mr-4">
-                <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                    viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
-                    width="512px" height="512px">
-                    <path
-                        d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
-                </svg>
-            </button>
-        </div>
+                        <!-- Logo -->
+                        <div class="ml-4 flex lg:ml-0">
+                            <a href="/">
+                                <span class="sr-only">Workflow</span>
+                                <img class="h-8 w-auto"
+                                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                                    alt="Logo">
+                            </a>
+                        </div>
+
+                        <!-- Flyout menus -->
+                        <div class="lg:ml-8">
+                            <div class="h-full flex space-x-8">
+                                <a href="/"
+                                    class="flex items-center text-sm font-medium text-gray-900 hover:text-gray-800">Home</a>
+
+                                <a href="/contact"
+                                    class="flex items-center text-sm font-medium text-gray-900 hover:text-gray-800">Support</a>
+
+                                <a href="/auth/signup"
+                                    class="flex items-center text-sm font-medium text-gray-900 hover:text-gray-800">Signup</a>
+
+                                <a href="/post/add"
+                                    class="flex items-center text-sm font-medium text-gray-900 hover:text-gray-800">Add post</a>
+                            </div>
+                        </div>
+
+                        <div class="ml-auto flex items-center">
+
+                            <div class="flex items-center ml-4 flow-root lg:ml-6">
+                                <a href="/profile" class="group -m-2 p-2 flex items-center">
+                                    <i class="fa-solid fa-circle-user text-indigo-600 fa-lg"></i>
+                                    <span class="ml-2 text-sm font-medium flex text-gray-900 group-hover:text-gray-800">
+                                        Your Profile
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
     </div>
 
+    <!-- main-container -->
+
+    <div class="bg-white">
+        <div>
+            <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="py-4 border-b flex items-center border-gray-200">
+
+                    <!-- pagination -->
+                    <div style="width: 25%;">
+                        <div class="bg-white flex items-center">
+
+                            <div>
+                                <p class="text-xs text-gray-700 mr-2">
+                                    <span class="font-medium" id="total-posts">0</span>
+                                    RESULTS
+                                </p>
+                            </div>
+
+                            <div class="relative z-0 inline-flex rounded-md shadow-md -space-x-px"
+                                aria-label="Pagination">
+                                <div
+                                    class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <span class="sr-only">Previous</span>
+                                    <svg id="prev-page-btn" onclick="setPageNumber(-1)"
+                                        class="h-5 w-5 text-gray-800 cursor-pointer" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+
+                                <div aria-current="page" id="page-number"
+                                    class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                    1 </div>
+                                <div
+                                    class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <span class="sr-only">Next</span>
+                                    <!-- Heroicon name: solid/chevron-right -->
+                                    <svg id="next-page-btn" onclick="setPageNumber(1)"
+                                        class="h-5 w-5 text-gray-800 cursor-pointer" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- search bar -->
+                    <div class="">
+                        <div id="search-bar"
+                            class="border border-gray-200 py-1 px-4 ml-3 rounded-3xl shadow-lg bg-white"
+                            style="width: 42rem;">
+                            <div class="flex relative items-center bg-white">
+                                <!-- search logo -->
+                                <div class="flex justify-between items-center">
+                                    <svg class="text-gray-700 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px"
+                                        y="0px" viewBox="0 0 56.966 56.966"
+                                        style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+                                        width="512px" height="512px">
+                                        <path
+                                            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                                    </svg>
+                                </div>
+
+                                <!-- search text -->
+                                <div class="border-r border-white h-6 mx-3"></div>
+                                <input name="search-text" id="search-text"
+                                    class="focus:outline-none focus:border-indigo-500 bg-white text-gray-700 text-xs block w-full h-10 pr-7 sm:text-sm border-gray-300"
+                                    placeholder="Search Academic Assistance" onfocus="showSuggestions()"
+                                    oninput="showSuggestions()">
+
+                                <!-- search text type -->
+                                <div class="ml-3 items-center">
+                                    <div class="relative flex items-center inline-block text-left">
+                                        <div type="button"
+                                            class="cursor-pointer group w-24 inline-flex justify-center text-xs font-medium text-gray-700 hover:text-gray-900"
+                                            id="menu-button" aria-expanded="false" aria-haspopup="true">
+                                            SEARCH BY
+                                            <svg class="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" aria-hidden="true"
+                                                onclick="toggleFilterDisplay('search-type-form')">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                            <div id="search-type-form"
+                                                class="hidden absolute z-10 w-40 mt-10 right-0 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
+                                                tabindex="-1">
+                                                <div id="search-type-title"
+                                                    class="search-type-btn cursor-pointer active-btn bg-indigo-600 text-white block px-2 py-1 text-xs"
+                                                    role="menuitem" tabindex="-1"
+                                                    onclick="setActiveSearchTypeBtn('search-type-title')">
+                                                    Title </div>
+
+                                                <div id="search-type-subject"
+                                                    class="search-type-btn text-gray-700 block px-2 py-1 text-xs"
+                                                    role="menuitem" tabindex="-1"
+                                                    onclick="setActiveSearchTypeBtn('search-type-subject')"> Subject
+                                                </div>
+
+                                                <div id="search-type-author"
+                                                    class="search-type-btn text-gray-700 block px-2 py-1 text-xs"
+                                                    role="menuitem" tabindex="-1"
+                                                    onclick="setActiveSearchTypeBtn('search-type-author')"> Author
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <!-- sort btn -->
+                                <div class="ml-1 items-center">
+                                    <div class="relative flex items-center inline-block text-left">
+                                        <div type="button"
+                                            class="cursor-pointer group w-20 inline-flex justify-center text-xs font-medium text-gray-700 hover:text-gray-900"
+                                            id="menu-button" aria-expanded="false" aria-haspopup="true">
+                                            SORT BY
+                                            <svg class="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" aria-hidden="true"
+                                                onclick="toggleFilterDisplay('sort-type-form')">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                            <div id="sort-type-form"
+                                                class="hidden absolute z-10 w-40 mt-10 right-0 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                                role="menu" aria-orientation="vertical" aria-labelledby="menu-button">
+                                                <div id="sort-type-upvote"
+                                                    class="sort-type-btn active-btn bg-indigo-600 text-white block px-2 py-1 text-xs"
+                                                    role="menuitem" tabindex="-1"
+                                                    onclick="setActiveSortTypeBtn('sort-type-upvote')"> Most Upvoted
+                                                </div>
+
+                                                <div id="sort-type-download"
+                                                    class="sort-type-btn text-gray-700 block px-2 py-1 text-xs"
+                                                    role="menuitem" tabindex="-1"
+                                                    onclick="setActiveSortTypeBtn('sort-type-download')"> Most
+                                                    Downloaded
+                                                </div>
+
+                                                <div id="sort-type-newest"
+                                                    class="sort-type-btn text-gray-700 block px-2 py-1 text-xs"
+                                                    role="menuitem" tabindex="-1"
+                                                    onclick="setActiveSortTypeBtn('sort-type-newest')"> Newest First
+                                                </div>
+
+                                                <div id="sort-type-oldest"
+                                                    class="sort-type-btn text-gray-700 block px-2 py-1 text-xs"
+                                                    role="menuitem" tabindex="-1"
+                                                    onclick="setActiveSortTypeBtn('sort-type-oldest')"> Oldest First
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <!-- search btn -->
+                                <div class="text-xs bg-indigo-600 ml-3 px-3 py-1 rounded-2xl cursor-pointer font-medium"
+                                    onclick="getPosts()">
+                                    <span class="text-white">SEARCH</span>
+                                </div>
+                            </div>
+
+                            <div id="suggestions"
+                                class="hidden absolute mt-2 z-20 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
+                                style="width: 24rem;">
+
+                                <!-- <div class="text-gray-700 block px-4 py-2 text-xs" role="menuitem" tabindex="-1"
+                                id="menu-item-0">Account settings</div> -->
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <section aria-labelledby="products-heading" class="pt-6 pb-24">
+
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
+                        <!-- Filters -->
+                        <div class="shadow-lg px-5 border rounded-xl border-gray-200 lg:block overflow-hidden">
+
+                            <div class="border-b border-gray-200 py-6">
+                                <h3 class="-my-3 flow-root">
+                                    <div type="button"
+                                        class="py-3 bg-white w-full flex items-center cursor-pointer justify-between text-sm text-gray-400 hover:text-gray-500"
+                                        aria-controls="filter-section-0" aria-expanded="false">
+                                        <span class="font-medium text-gray-900"> Academic Year </span>
+                                        <span class="ml-6 flex items-center">
+                                            <svg onclick="toggleFilterDisplay('academic-year-form')" class="h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </h3>
+
+                                <form class="hidden pl-4 pt-6" id="academic-year-form">
+                                    <div class="space-y-4">
+                                        <div class="flex items-center">
+                                            <input value="1" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-0" class="ml-3 text-sm text-gray-600"> First
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="2" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-1" class="ml-3 text-sm text-gray-600"> Second
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="3" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-2" class="ml-3 text-sm text-gray-600"> Third
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="4" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-3" class="ml-3 text-sm text-gray-600"> Fourth
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="border-b border-gray-200 py-6">
+                                <h3 class="-my-3 flow-root">
+
+                                    <div type="button"
+                                        class="py-3 cursor-pointer bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500"
+                                        aria-controls="filter-section-0" aria-expanded="false">
+                                        <span class="font-medium text-gray-900"> Department </span>
+                                        <span class="ml-6 flex items-center">
+                                            <svg onclick="toggleFilterDisplay('department-form')" class="h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </h3>
+
+                                <form class="hidden pl-4 pt-6" id="department-form">
+                                    <div class="space-y-4">
+
+                                        <div class="flex items-center">
+                                            <input value="humanities" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-0" class="ml-3 text-sm text-gray-600"> Humanities
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="computer" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-0" class="ml-3 text-sm text-gray-600"> Computer
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="it" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-1" class="ml-3 text-sm text-gray-600"> Information
+                                                Technology
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="mechanical" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-2" class="ml-3 text-sm text-gray-600"> Mechanical
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="electrical" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-3" class="ml-3 text-sm text-gray-600"> Electrical
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="electronics" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-1" class="ml-3 text-sm text-gray-600"> Electronics
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="civil" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-3" class="ml-3 text-sm text-gray-600"> Civil
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="chemical" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-3" class="ml-3 text-sm text-gray-600"> Chemical
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="border-b border-gray-200 py-6">
+                                <h3 class="-my-3 flow-root">
+
+                                    <div type="button"
+                                        class="py-3 cursor-pointer bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500"
+                                        aria-controls="filter-section-0" aria-expanded="false">
+                                        <span class="font-medium text-gray-900"> File Type </span>
+                                        <span class="ml-6 flex items-center">
+                                            <svg onclick="toggleFilterDisplay('file-type-form')" class="h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </h3>
+
+                                <form class="hidden pl-4 pt-6" id="file-type-form">
+                                    <div class="space-y-4">
+                                        <div class="flex items-center">
+                                            <input value="textbook" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-0" class="ml-3 text-sm text-gray-600"> Textbook
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="notes" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-1" class="ml-3 text-sm text-gray-600"> Notes
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="journal" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-2" class="ml-3 text-sm text-gray-600"> Journal
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="researchpaper" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-3" class="ml-3 text-sm text-gray-600"> Research
+                                                Paper
+                                            </label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input value="ppt" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-1" class="ml-3 text-sm text-gray-600"> PPT
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="assignment" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-2" class="ml-3 text-sm text-gray-600"> Assignment
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="project" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-3" class="ml-3 text-sm text-gray-600"> Project
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="questionpaper" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-2" class="ml-3 text-sm text-gray-600"> Question
+                                                Paper
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="others" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-3" class="ml-3 text-sm text-gray-600"> Others
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="border-b border-gray-200 py-6">
+                                <h3 class="-my-3 flow-root">
+
+                                    <div type="button"
+                                        class="py-3 bg-white w-full flex items-center cursor-pointer justify-between text-sm text-gray-400 hover:text-gray-500"
+                                        aria-controls="filter-section-0" aria-expanded="false">
+                                        <span class="font-medium text-gray-900"> Author Type </span>
+                                        <span class="ml-6 flex items-center">
+                                            <svg onclick="toggleFilterDisplay('author-type-form')" class="h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </h3>
+
+                                <form class="hidden pl-4 pt-6" id="author-type-form">
+                                    <div class="space-y-4">
+                                        <div class="flex items-center">
+                                            <input value="faculty" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-0" class="ml-3 text-sm text-gray-600"> Faculty
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input value="student" type="checkbox"
+                                                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                checked>
+                                            <label for="filter-color-1" class="ml-3 text-sm text-gray-600"> Student
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                        <!-- Posts  -->
+                        <div class="lg:col-span-3">
+                            <div class="border px-8 pt-8 border-gray-200 shadow-lg rounded-xl h-96 lg:h-full">
+                                <div class="bg-white">
+                                    <div id="post-container" class="flex flex-wrap">
+
+                                        <!-- sample cards-->
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+        </section>
+        </main>
+    </div>
+    </div>
+
+
+    <script src="../js/index.js"></script>
+    <script src="https://kit.fontawesome.com/01060bdbe8.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

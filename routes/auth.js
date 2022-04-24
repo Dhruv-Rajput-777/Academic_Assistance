@@ -4,6 +4,7 @@ const {
   registerUser,
   logoutUser,
   getUser,
+  checkUsername,
 } = require("../controllers/auth");
 
 const router = express.Router();
@@ -23,5 +24,7 @@ router.post("/signup", registerUser);
 router.get("/logout", logoutUser);
 
 router.get("/getUser", getUser);
+
+router.get("/checkUsername", checkUsername);
 
 module.exports = router;
