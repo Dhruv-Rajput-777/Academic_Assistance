@@ -244,7 +244,7 @@ const getPosts = async () => {
   if (response.status !== 200 || posts.posts.length === 0) {
     const postContainer = document.getElementById("post-container");
     postContainer.replaceChildren();
-    postContainer.innerHTML = `<div class="font-md">No documents found!</div>`;
+    postContainer.innerHTML = `<div class="text-sm text-red-600 font-md">No documents found!</div>`;
     localStorage.setItem("totalPages", 1);
     localStorage.setItem("totalPosts", 0);
     setPagination();
