@@ -247,6 +247,7 @@ const getPosts = async () => {
     postContainer.innerHTML = `<div class="font-md">No documents found!</div>`;
     localStorage.setItem("totalPages", 1);
     localStorage.setItem("totalPosts", 0);
+    setPagination();
     return;
   }
   localStorage.setItem("totalPages", posts.totalPages);
