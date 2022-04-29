@@ -1,39 +1,29 @@
 const Post = require("../models/post");
-const formidable = require("formidable");
-const fs = require("fs");
 const path = require("path");
+const multer = require("multer");
+const { GridFsStorage } = require("multer-gridfs-storage");
+const crypto = require("crypto");
+const mongoose = require("mongoose");
+const fs = require("fs");
 
 const addPost = async (req, res) => {
   try {
-    const uploadDir = path.join(__dirname, "..", "uploads");
-    const form = new formidable.IncomingForm({
-      maxFileSize: 10 * 1024 * 1024,
-      uploadDir,
-      keepExtensions: true,
-    });
-    form.parse(req, async (err, fields, files) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send({ err });
-      }
-      const file = files.file;
-      const post = new Post(fields);
-      post.file = {
-        originalFilename: file.originalFilename,
-        path: file.filepath,
-        mimetype: file.mimetype,
-      };
+    const newPost = new Post(req.body);
+    newPost.file = {
+      originalFilename: req.file.originalname,
+      filename: req.file.filename,
+      mimetype: req.file.mimetype,
+    };
+    await newPost.save();
 
-      const data = await post.save();
+    const user = req.user;
+    user.uploadedPosts.push(newPost.id);
+    await user.save();
 
-      let user = req.user;
-      user.uploadedPosts.push(data.id);
-      await user.save();
-      res.status(200).send({ postId: data.id });
-    });
+    res.status(200).send({ postId: newPost.id });
   } catch (err) {
     console.log(err);
-    res.send({ err });
+    return res.status(500).send({ err });
   }
 };
 
@@ -47,10 +37,8 @@ const getPost = async (req, res) => {
       ["downvotes"]: post.downvoteCount,
       ["isVoted"]: isPostVoted(req, post),
       ["isSaved"]: isPostSaved(req, postId),
-      ["filename"]: post.file.originalFilename,
     };
     delete modifiedPost.userId;
-    delete modifiedPost.file;
     res.status(200).send(modifiedPost);
   } catch (err) {
     console.log(err.message);
@@ -74,15 +62,48 @@ const isPostSaved = (req, postId) => {
 };
 
 const getFile = async (req, res) => {
-  let postId = req.query.postId;
   try {
-    let post = await Post.findById(postId);
-    res.sendFile(post.file.path);
-    post.downloads++;
-    await post.save();
+    let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+      bucketName: "uploads",
+    });
+    if (!gfs) {
+      console.log("gfs not found");
+      return res
+        .status(500)
+        .send("Unable to retrieve file currently, please try again later");
+    }
+
+    let filename = req.query.filename;
+    const files = await gfs.find({ filename }).toArray();
+    if (!files[0] || files.length === 0) {
+      console.log("No file available");
+      return res.status(200).send("No file available");
+    }
+
+    const tempFile = fs.createWriteStream("./uploads/" + filename);
+    gfs.openDownloadStreamByName(filename).pipe(tempFile);
+
+    const filepath = path.join(__dirname, "..", "uploads", filename);
+    tempFile.on("close", () => {
+      res.download(filepath);
+    });
+    // tempFile.on("finish", () => {
+    // deleteFile(filepath);
+    // });
   } catch (err) {
-    console.log(err.message);
-    return res.status(500).send(err.message);
+    console.log(err);
+    return res.status(500).send(err);
+  }
+};
+
+const deleteFile = (filepath) => {
+  if (fs.existsSync(filepath)) {
+    fs.unlink(filepath, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(filepath + " deleted");
+    });
   }
 };
 

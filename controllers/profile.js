@@ -10,10 +10,11 @@ const getPosts = async (req, res) => {
     let posts = [];
     for (let postId of uploadedPosts) {
       const post = await Post.findById(postId);
+      if (!post) continue;
       posts.push({
-        id: post._id,
+        id: post.id,
         title: post.title,
-        description : post.description,
+        description: post.description,
         timestamp: post.timestamp,
         filetype: post.file.mimetype,
       });
@@ -43,7 +44,7 @@ const getSavedPosts = async (req, res) => {
         savedPostsIds.push(post.id);
       }
     }
-    
+
     user.savedPosts = savedPostsIds;
     user.save();
 
@@ -52,7 +53,7 @@ const getSavedPosts = async (req, res) => {
       posts.push({
         id: post._id,
         title: post.title,
-        description : post.description,
+        description: post.description,
         timestamp: post.timestamp,
         filetype: post.file.mimetype,
       });

@@ -53,17 +53,14 @@ const showPost = () => {
   setSaveBtn();
   setVotedBtn(null);
 
-  document.getElementById("file-name").innerText = post.filename;
+  document.getElementById("file-name").innerText = post.file.originalFilename;
 };
 
-const downloadFile = () => {
+const downloadFile = async () => {
   const postId = post._id;
   post.downloads++;
   setVotedBtn();
-  let a = document.createElement("a");
-  a.href = `/post/getFile?postId=${postId}`;
-  a.target = "_blank";
-  a.click();
+  location.href = `/post/getFile?filename=${post.file.filename}`;
 };
 
 const savePost = async () => {
@@ -187,7 +184,7 @@ document.getElementById("download-btn").onmouseout = () => {
 const showErrModal = (title, body) => {
   const modalTitle = document.getElementById("modal-title");
   const modalBody = document.getElementById("modal-body");
- 
+
   modalTitle.innerHTML = title;
   modalBody.innerHTML = body;
 
