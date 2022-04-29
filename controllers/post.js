@@ -80,10 +80,10 @@ const getFile = async (req, res) => {
       return res.status(200).send("No file available");
     }
 
-    const tempFile = fs.createWriteStream("./uploads/" + filename);
+    const filepath = path.join(__dirname, "..", "uploads", filename);
+    const tempFile = fs.createWriteStream(filepath);
     gfs.openDownloadStreamByName(filename).pipe(tempFile);
 
-    const filepath = path.join(__dirname, "..", "uploads", filename);
     tempFile.on("close", () => {
       res.download(filepath);
     });
