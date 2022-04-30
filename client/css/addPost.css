@@ -6,3 +6,17 @@
   width: 100vw;
   padding : 0rem 12rem 0rem 12rem;
 }
+
+.loader {
+  border: 0.3rem solid #f3f3f3; /* Light grey */
+  border-top: 0.3rem solid rgb(90, 103, 216); /* Blue */
+  border-radius: 50%;
+  width: 1.6rem;
+  height: 1.6rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

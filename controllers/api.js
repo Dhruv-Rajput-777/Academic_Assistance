@@ -29,10 +29,7 @@ const getPosts = async (req, res) => {
   const skip = (page - 1) * limit;
 
   try {
-    const posts = await Post.find();
-    const totalPosts = posts.length;
-    const totalPages = Math.ceil(totalPosts / limit);
-    const postsToReturn = await Post.find({
+    const posts = await Post.find({
       $and: [
         { [searchTextType]: { $regex: searchText, $options: "i" } },
         {
@@ -54,7 +51,7 @@ const getPosts = async (req, res) => {
       .sort(sortType);
 
     let updatedPosts = [];
-    for (let post of postsToReturn) {
+    for (let post of posts) {
       updatedPosts.push({
         id: post.id,
         title: post.title,
@@ -63,6 +60,27 @@ const getPosts = async (req, res) => {
         filetype: post.file.mimetype,
       });
     }
+
+    const countPosts = await Post.find({
+      $and: [
+        { [searchTextType]: { $regex: searchText, $options: "i" } },
+        {
+          academicYear: { $in: filters.academicYear },
+        },
+        {
+          department: { $in: filters.department },
+        },
+        {
+          fileType: { $in: filters.fileType },
+        },
+        {
+          authorType: { $in: filters.authorType },
+        },
+      ],
+    });
+
+    const totalPosts = countPosts.length;
+    const totalPages = Math.ceil(totalPosts / limit);
     return res.send({ posts: updatedPosts, totalPages, totalPosts });
   } catch (err) {
     console.log(err);

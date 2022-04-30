@@ -84,8 +84,12 @@ const getFile = async (req, res) => {
     const tempFile = fs.createWriteStream(filepath);
     gfs.openDownloadStreamByName(filename).pipe(tempFile);
 
-    tempFile.on("close", () => {
+    tempFile.on("close", async () => {
       res.download(filepath);
+      let postId = req.query.postId;
+      const post = await Post.findById(postId);
+      post.downloads++;
+      await post.save();
     });
     // tempFile.on("finish", () => {
     // deleteFile(filepath);

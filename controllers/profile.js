@@ -111,4 +111,35 @@ const unsavePost = async (req, res) => {
   }
 };
 
-module.exports = { getPosts, getSavedPosts, deletePost, unsavePost };
+const getStatistics = async (req, res) => {
+  try {
+    if (!req.isAuthenticated()) {
+      return res.redirect("/auth/login");
+    }
+    const user = req.user;
+    let statistics = {
+      upvotes: 0,
+      downvotes: 0,
+      downloads: 0,
+    };
+    for (let postId of user.uploadedPosts) {
+      const post = await Post.findById(postId);
+      if (!post) continue;
+      statistics.upvotes += post.upvoteCount;
+      statistics.downvotes += post.downvoteCount;
+      statistics.downloads += post.downloads;
+    }
+    return res.send(statistics);
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({ msg: "Unable to fetch stats!" });
+  }
+};
+
+module.exports = {
+  getPosts,
+  getSavedPosts,
+  deletePost,
+  unsavePost,
+  getStatistics,
+};

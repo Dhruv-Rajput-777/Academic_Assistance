@@ -34,7 +34,6 @@ const showModal = () => {
   if (modal.classList.contains("hidden")) modal.classList.remove("hidden");
 };
 
-
 // post functions
 
 var neverAskAgain = false;
@@ -115,6 +114,7 @@ const modifyPostDescription = (description) => {
 const showUploadedPosts = async () => {
   const getUploadedPosts = async () => {
     const response = await fetch("/profile/getPosts");
+    if(response.status !== 200) return [];
     const posts = await response.json();
     return posts;
   };
@@ -122,6 +122,12 @@ const showUploadedPosts = async () => {
   const posts = await getUploadedPosts();
   const rightContainer = document.getElementById("right-container");
   rightContainer.replaceChildren();
+  
+  if (posts.length === 0) {
+    return (rightContainer.innerHTML = `<div class="flex flex-col items-center justify-center">
+  <h3 class="text-red-600 text-sm text-center">No posts found</h3>
+  </div>`);
+  }
 
   for (let post of posts) {
     const d = new Date(post.timestamp);
@@ -172,6 +178,7 @@ const showUploadedPosts = async () => {
 const showSavedPosts = async () => {
   const getSavedPosts = async () => {
     const response = await fetch("/profile/getSavedPosts");
+    if(response.status !== 200) return [];
     const posts = await response.json();
     return posts;
   };
@@ -180,6 +187,12 @@ const showSavedPosts = async () => {
   const rightContainer = document.getElementById("right-container");
   rightContainer.replaceChildren();
 
+  if (posts.length === 0) {
+    return (rightContainer.innerHTML = `<div class="flex flex-col items-center justify-center">
+  <h3 class="text-red-600 text-sm text-center">No posts found</h3>
+  </div>`);
+  }
+  
   for (let post of posts) {
     const d = new Date(post.timestamp);
 
@@ -214,7 +227,9 @@ const showSavedPosts = async () => {
         <div>
             <hr class="my-1" />
             <div class="flex justify-end font-medium text-xs text-gray-700">
-                <div> ${d.getDate()}-${d.getMonth()}-${d.getFullYear()}</div>
+                <div> ${d.getDate()}-${
+      d.getMonth() + 1
+    }-${d.getFullYear()}</div>
             </div>
         </div>
 
@@ -265,7 +280,65 @@ const setRightContainer = () => {
 
 // stats and settings
 
-const showStatistics = () => {};
+const showStatistics = async () => {
+  
+  const getStatistics = async () => {
+    const response = await fetch("/profile/getStatistics");
+    if(response.status !== 200) return {upvotes : 0, downvotes : 0, downloads : 0};
+    const statistics = await response.json();
+    return statistics;
+  }
+  
+  const rightContainer = document.getElementById("right-container");
+  rightContainer.replaceChildren();
+
+  const {upvotes, downvotes, downloads} = await getStatistics();
+  console.log(upvotes, downvotes, downloads);
+  rightContainer.innerHTML = `
+  <div class="flex w-full py-2 align-center justify-evenly">
+
+  <div class="bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center"
+      style="height:16rem; width:14rem;">
+
+      <div class="shadow-xl border-8 border-green-600 mt-8 mb-4 flex flex-col align-center justify-center"
+          style="width: 9rem; height: 9rem; border-radius: 50%;">
+          <span class="text-4xl font-semibold mx-auto mb-2">${upvotes}</span>
+          <i class="fa-solid fa-caret-up w-fit fa-lg mx-auto"></i>
+      </div>
+
+      <div class="text-sm font-medium">UPVOTES</div>
+
+  </div>
+
+  <div class="bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center"
+      style="height:16rem; width:14rem;">
+
+      <div class="shadow-xl border-8 border-red-600 mt-8 mb-4 flex flex-col align-center justify-center"
+          style="width: 9rem; height: 9rem; border-radius: 50%;">
+          <span class="text-4xl font-semibold mx-auto mb-2">${downvotes}</span>
+          <i class="fa-solid fa-caret-down w-fit fa-lg mx-auto"></i>
+      </div>
+
+      <div class="text-sm font-medium">DOWNVOTES</div>
+
+  </div>
+
+  <div class="bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center"
+      style="height:16rem; width:14rem;">
+
+      <div class="shadow-xl border-8 border-indigo-600 mt-8 mb-4 flex flex-col align-center justify-center"
+          style="width: 9rem; height: 9rem; border-radius: 50%;">
+          <span class="text-4xl font-semibold mx-auto mb-2">${downloads}</span>
+          <i class="fa-solid fa-angle-down w-fit fa-lg mx-auto"></i>
+      </div>
+
+      <div class="text-sm font-medium">DOWNLOADS</div>
+
+  </div>
+  
+</div>
+  `;
+};
 
 const showSettings = () => {};
 

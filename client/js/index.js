@@ -333,7 +333,7 @@ const showPosts = (data) => {
         <div>
             <hr class="my-1" />
             <div class="flex justify-end font-medium text-xs text-gray-700">
-                <div> ${d.getDate()}-${d.getMonth()}-${d.getFullYear()}</div>
+                <div> ${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}</div>
             </div>
         </div>
 

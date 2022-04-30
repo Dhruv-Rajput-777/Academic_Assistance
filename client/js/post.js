@@ -48,7 +48,7 @@ const showPost = () => {
   let d = new Date(post.timestamp);
   document.getElementById(
     "date"
-  ).innerText = `${d.getDate()}-${d.getMonth()}-${d.getFullYear()}`;
+  ).innerText = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
 
   setSaveBtn();
   setVotedBtn(null);
@@ -60,7 +60,7 @@ const downloadFile = async () => {
   const postId = post._id;
   post.downloads++;
   setVotedBtn();
-  location.href = `/post/getFile?filename=${post.file.filename}`;
+  location.href = `/post/getFile?postId=${postId}&filename=${post.file.filename}`;
 };
 
 const savePost = async () => {

@@ -34,14 +34,18 @@ const addPost = async (e) => {
       "Please make sure that the following fields are filled.<br/><ul><h4><b>TITLE</b></h4><h4><b>FILE</b></h4></ul>"
     );
   }
-
+  showModal(
+    "success",
+    "Adding Post...",
+    `<div class="flex"><div class="loader"></div> <p>&nbsp;&nbsp;Please wait while we add your post.</p></div>`
+  );
   const response = await fetch("/post/add", {
     method: "POST",
     body: post,
   });
 
   const data = await response.json();
-
+  hideModal();
   if (response.status !== 200) {
     return showModal(
       "failure",
@@ -106,8 +110,6 @@ const setFileName = () => {
   }
 };
 setFileName();
-
-
 
 document.querySelector("#file").onchange = function () {
   document.querySelector("#file-name").textContent = this.files[0].name;

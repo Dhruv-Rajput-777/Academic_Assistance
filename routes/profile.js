@@ -3,7 +3,8 @@ const {
   getPosts,
   getSavedPosts,
   deletePost,
-  unsavePost
+  unsavePost,
+  getStatistics
 } = require("../controllers/profile");
 
 const router = express.Router();
@@ -22,5 +23,7 @@ router.get("/getSavedPosts", getSavedPosts);
 router.get("/deletePost", deletePost);
 
 router.get("/unsavePost", unsavePost);
+
+router.get("/getStatistics", getStatistics);
 
 module.exports = router;
