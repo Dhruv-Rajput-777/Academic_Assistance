@@ -9,11 +9,17 @@ const showAlert = (type, message) => {
   const alertDiv = document.getElementById("alert-div");
   document.getElementById("alert-div-message").innerHTML = message;
   if (type === "success") {
+    document.getElementById(
+      "alert-icon"
+    ).innerHTML = `<i class="fa-regular fa-circle-check fa-lg text-white"></i>`;
     if (alertDiv.classList.contains("bg-red-400")) {
       alertDiv.classList.remove("bg-red-400");
     }
     alertDiv.classList.add("bg-green-400");
   } else {
+    document.getElementById(
+      "alert-icon"
+    ).innerHTML = `<i class="fa-solid fa-triangle-exclamation fa-lg"></i>`;
     if (alertDiv.classList.contains("bg-green-400")) {
       alertDiv.classList.remove("bg-green-400");
     }
@@ -114,7 +120,7 @@ const modifyPostDescription = (description) => {
 const showUploadedPosts = async () => {
   const getUploadedPosts = async () => {
     const response = await fetch("/profile/getPosts");
-    if(response.status !== 200) return [];
+    if (response.status !== 200) return [];
     const posts = await response.json();
     return posts;
   };
@@ -122,7 +128,7 @@ const showUploadedPosts = async () => {
   const posts = await getUploadedPosts();
   const rightContainer = document.getElementById("right-container");
   rightContainer.replaceChildren();
-  
+
   if (posts.length === 0) {
     return (rightContainer.innerHTML = `<div class="flex flex-col items-center justify-center">
   <h3 class="text-red-600 text-sm text-center">No posts found</h3>
@@ -178,7 +184,7 @@ const showUploadedPosts = async () => {
 const showSavedPosts = async () => {
   const getSavedPosts = async () => {
     const response = await fetch("/profile/getSavedPosts");
-    if(response.status !== 200) return [];
+    if (response.status !== 200) return [];
     const posts = await response.json();
     return posts;
   };
@@ -192,7 +198,7 @@ const showSavedPosts = async () => {
   <h3 class="text-red-600 text-sm text-center">No posts found</h3>
   </div>`);
   }
-  
+
   for (let post of posts) {
     const d = new Date(post.timestamp);
 
@@ -280,24 +286,11 @@ const setRightContainer = () => {
 
 // stats and settings
 
-const showStatistics = async () => {
-  
-  const getStatistics = async () => {
-    const response = await fetch("/profile/getStatistics");
-    if(response.status !== 200) return {upvotes : 0, downvotes : 0, downloads : 0};
-    const statistics = await response.json();
-    return statistics;
-  }
-  
-  const rightContainer = document.getElementById("right-container");
-  rightContainer.replaceChildren();
-
-  const {upvotes, downvotes, downloads} = await getStatistics();
-  console.log(upvotes, downvotes, downloads);
-  rightContainer.innerHTML = `
+const getOverallStatistics = (upvotes, downvotes, downloads) => {
+  return `
   <div class="flex w-full py-2 align-center justify-evenly">
 
-  <div class="bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center"
+  <div class="bg-white border border-gray-200 rounded-lg shadow-lg my-5 flex flex-col items-center"
       style="height:16rem; width:14rem;">
 
       <div class="shadow-xl border-8 border-green-600 mt-8 mb-4 flex flex-col align-center justify-center"
@@ -310,7 +303,7 @@ const showStatistics = async () => {
 
   </div>
 
-  <div class="bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center"
+  <div class="bg-white border border-gray-200 rounded-lg shadow-lg my-5 flex flex-col items-center"
       style="height:16rem; width:14rem;">
 
       <div class="shadow-xl border-8 border-red-600 mt-8 mb-4 flex flex-col align-center justify-center"
@@ -323,7 +316,7 @@ const showStatistics = async () => {
 
   </div>
 
-  <div class="bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center"
+  <div class="bg-white border border-gray-200 rounded-lg shadow-lg my-5 flex flex-col items-center"
       style="height:16rem; width:14rem;">
 
       <div class="shadow-xl border-8 border-indigo-600 mt-8 mb-4 flex flex-col align-center justify-center"
@@ -340,7 +333,164 @@ const showStatistics = async () => {
   `;
 };
 
-const showSettings = () => {};
+const getIndividualStatistics = (posts) => {
+  const getIndividualStatisticsUtil = (posts) => {
+    let html = "";
+    for (let post of posts) {
+      html += `
+      <div class="w-full flex my-2 text-center justify-between px-5 py-2 border border-gray-200 shadow-md rounded-lg"
+      style="height: 6rem;">
+      <div class="my-auto text-md font-medium">${post.title}</div>
+      <div class="flex text-center my-auto">
+          <div class="flex items-center mr-6">
+              <p class="mr-2 text-md font-medium">${post.upvotes}</p>
+              <i class="fa-solid fa-caret-up w-fit fa-lg mt-1 text-green-600"></i>
+          </div>
+          <div class="flex items-center mr-6">
+              <p class="mr-2 text-md font-medium">${post.downvotes}</p>
+              <i class="fa-solid fa-caret-down w-fit fa-lg text-red-600"></i>
+          </div>
+          <div class="flex items-center">
+              <p class="mr-2 text-md font-medium">${post.downloads}</p>
+              <i
+                  class="fa-solid fa-angle-down w-fit fa-lg text-indigo-600"></i>
+          </div>
+      </div>
+    </div>
+  `;
+    }
+    return html;
+  };
+
+  return `
+  <div class="flex w-full flex-col py-2 px-4 align-center">
+    ${getIndividualStatisticsUtil(posts)}
+  </div>
+`;
+};
+
+const showStatistics = async () => {
+  const getStatistics = async () => {
+    const response = await fetch("/profile/getStatistics");
+    if (response.status !== 200)
+      return {
+        upvotes: 0,
+        downvotes: 0,
+        downloads: 0,
+        posts: [],
+      };
+    const statistics = await response.json();
+    return statistics;
+  };
+
+  const rightContainer = document.getElementById("right-container");
+  rightContainer.replaceChildren();
+
+  const { upvotes, downvotes, downloads, posts } = await getStatistics();
+
+  rightContainer.innerHTML =
+    getOverallStatistics(upvotes, downvotes, downloads) +
+    getIndividualStatistics(posts);
+};
+
+// settings
+
+const showSettings = () => {
+  const rightContainer = document.getElementById("right-container");
+  rightContainer.replaceChildren();
+
+  rightContainer.innerHTML = `
+  <div class="flex flex-col">
+  <h2 class="font-bold mt-1 mb-4">Change Password</h2>
+
+  <form id="change-password-form" class="">
+
+      <div class="flex flex-col" style="width: 25rem;">
+          <div class="mb-6 flex flex-col w-full">
+              <div class="flex items-center justify-between w-full">
+                  <label for="old-password"
+                      class="block text-sm mr-3 font-medium text-gray-700">
+                      Old Password </label>
+                  <div class="flex rounded-md shadow-sm">
+
+                      <input type="password" name="oldPassword"
+                          id="old-password"
+                          class="border border-gray-200 rounded-md shadow-md flex-1 p-2 block w-full rounded-none rounded-r-md sm:text-sm focus:outline-none"
+                          placeholder="Old Password" required>
+                  </div>
+              </div>
+          </div>
+
+          <div class="mb-6 flex flex-col w-full">
+              <div class="flex items-center justify-between w-full">
+                  <label for="new-password"
+                      class="block text-sm mr-3 font-medium text-gray-700">
+                      New Password </label>
+                  <div class="flex rounded-md shadow-sm">
+
+                      <input type="password" name="newPassword"
+                          id="new-password"
+                          class="border border-gray-200 rounded-md shadow-md flex-1 p-2 block w-full rounded-none rounded-r-md sm:text-sm focus:outline-none"
+                          placeholder="New Password" required>
+                  </div>
+              </div>
+          </div>
+
+          <div class="mb-6 flex flex-col w-full">
+              <div class="flex items-center justify-between w-full">
+                  <label for="confirm-new-password"
+                      class="block text-sm mr-3 font-medium text-gray-700">
+                      Confirm New Password </label>
+                  <div class="flex rounded-md shadow-sm">
+
+                      <input type="password" name="confirmPassword"
+                          id="confirm-new-password"
+                          class="border border-gray-200 rounded-md shadow-md flex-1 p-2 block w-full rounded-none rounded-r-md sm:text-sm focus:outline-none"
+                          placeholder="Confirm New Password" required>
+                  </div>
+              </div>
+          </div>
+
+
+      </div>
+      <div class="bg-gray-50">
+          <button type="submit" onclick="changePassword(event)"
+              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Change
+              Password</button>
+      </div>
+  </form>
+</div>
+  `;
+};
+
+const changePassword = async (e) => {
+  e.preventDefault();
+  const form = document.forms["change-password-form"];
+  const oldPassword = form.oldPassword.value;
+  const newPassword = form.newPassword.value;
+  const confirmPassword = form.confirmPassword.value;
+
+  if (newPassword !== confirmPassword) {
+    return showAlert("failure", "Passwords do not match");
+  }
+
+  const response = await fetch("/profile/changePassword", {
+    method: "POST",
+    body: JSON.stringify({ oldPassword, newPassword }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  if (response.status !== 200) {
+    return showAlert("failure", data.msg);
+  } else {
+    form.reset();
+    return showAlert("success", data.msg);
+  }
+};
 
 // onload
 

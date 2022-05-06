@@ -70,7 +70,9 @@
         <div class="max-w-7xl mx-auto py-2 px-3 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between flex-wrap">
                 <div class="w-0 flex-1 flex items-center">
-                    <i class="fa-regular fa-circle-check fa-lg text-white"></i>
+                    <div id="alert-icon">
+                        <i class="fa-regular fa-circle-check fa-lg text-white"></i>
+                    </div>
                     <p class="ml-3 font-medium truncate">
                         <span id="alert-div-message" class="hidden md:inline text-sm"> Display Message Here </span>
                     </p>
@@ -94,53 +96,8 @@
 
         <div class="bg-white">
             <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="py-4 border-b flex items-center justify-end border-gray-200">
-                    <!-- pagination -->
-                    <div>
-                        <div class="bg-white flex items-center">
 
-                            <div>
-                                <p class="text-xs text-gray-700 mr-2">
-                                    <span class="font-medium" id="total-posts">0</span>
-                                    RESULTS
-                                </p>
-                            </div>
-
-                            <div class="relative z-0 inline-flex rounded-md shadow-md -space-x-px"
-                                aria-label="Pagination">
-                                <div
-                                    class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                    <span class="sr-only">Previous</span>
-                                    <svg id="prev-page-btn" onclick="setPageNumber(-1)"
-                                        class="h-5 w-5 text-gray-800 cursor-pointer" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd"
-                                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-
-                                <div aria-current="page" id="page-number"
-                                    class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                    1 </div>
-                                <div
-                                    class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                    <span class="sr-only">Next</span>
-                                    <svg id="next-page-btn" onclick="setPageNumber(1)"
-                                        class="h-5 w-5 text-gray-800 cursor-pointer" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd"
-                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <section aria-labelledby="products-heading" class="pt-6 pb-24">
+                <section aria-labelledby="products-heading" class="py-6">
                     <h2 id="products-heading" class="sr-only"></h2>
 
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
@@ -230,52 +187,13 @@
 
                         <!-- Product grid -->
                         <div class="lg:col-span-3">
-                            <div class="border px-8 pt-8 border-gray-200 shadow-lg rounded-xl h-96 lg:h-full">
+                            <div class="border px-8 py-8 border-gray-200 shadow-lg rounded-xl h-96 lg:h-full">
                                 <div class="bg-white">
-                                    <div id="right-container" class="flex flex-wrap">
+                                    <div id="right-container" class="flex flex-wrap overflow-auto"
+                                        style="max-height:70vh;">
 
-                                        <!-- <div class="flex w-full py-2 align-center justify-evenly">
+                                       
 
-                                            <div class="bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center"
-                                                style="height:16rem; width:14rem;">
-
-                                                <div class="shadow-xl border-8 border-green-600 mt-8 mb-4 flex flex-col align-center justify-center"
-                                                    style="width: 9rem; height: 9rem; border-radius: 50%;">
-                                                    <span class="text-4xl font-semibold mx-auto mb-2">100</span>
-                                                    <i class="fa-solid fa-caret-up w-fit fa-lg mx-auto"></i>
-                                                </div>
-
-                                                <div class="text-sm font-medium">UPVOTES</div>
-
-                                            </div>
-
-                                            <div class="bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center"
-                                                style="height:16rem; width:14rem;">
-
-                                                <div class="shadow-xl border-8 border-red-600 mt-8 mb-4 flex flex-col align-center justify-center"
-                                                    style="width: 9rem; height: 9rem; border-radius: 50%;">
-                                                    <span class="text-4xl font-semibold mx-auto mb-2">100</span>
-                                                    <i class="fa-solid fa-caret-down w-fit fa-lg mx-auto"></i>
-                                                </div>
-
-                                                <div class="text-sm font-medium">DOWNVOTES</div>
-
-                                            </div>
-
-                                            <div class="bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col items-center"
-                                                style="height:16rem; width:14rem;">
-
-                                                <div class="shadow-xl border-8 border-indigo-600 mt-8 mb-4 flex flex-col align-center justify-center"
-                                                    style="width: 9rem; height: 9rem; border-radius: 50%;">
-                                                    <span class="text-4xl font-semibold mx-auto mb-2">100</span>
-                                                    <i class="fa-solid fa-arrow-down w-fit fa-lg mx-auto"></i>
-                                                </div>
-
-                                                <div class="text-sm font-medium">DOWNLOADS</div>
-
-                                            </div>
-                                            
-                                        </div> -->
                                     </div>
                                 </div>
                             </div>

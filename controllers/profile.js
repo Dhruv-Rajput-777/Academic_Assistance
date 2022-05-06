@@ -121,6 +121,7 @@ const getStatistics = async (req, res) => {
       upvotes: 0,
       downvotes: 0,
       downloads: 0,
+      posts: [],
     };
     for (let postId of user.uploadedPosts) {
       const post = await Post.findById(postId);
@@ -128,11 +129,33 @@ const getStatistics = async (req, res) => {
       statistics.upvotes += post.upvoteCount;
       statistics.downvotes += post.downvoteCount;
       statistics.downloads += post.downloads;
+      statistics.posts.push({
+        title: post.title,
+        upvotes: post.upvoteCount,
+        downvotes: post.downvoteCount,
+        downloads: post.downloads,
+      });
     }
     return res.send(statistics);
   } catch (err) {
     console.log(err.message);
     return res.status(500).json({ msg: "Unable to fetch stats!" });
+  }
+};
+
+const changePassword = async (req, res) => {
+  try {
+    if (!req.isAuthenticated()) return res.redirect("/auth/login");
+
+    const user = req.user;
+    const { oldPassword, newPassword } = req.body;
+
+    await user.changePassword(oldPassword, newPassword);
+    
+    res.send({ msg: "Password changed successfully!" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ msg: "Unable to change password! " + err.message });
   }
 };
 
@@ -142,4 +165,5 @@ module.exports = {
   deletePost,
   unsavePost,
   getStatistics,
+  changePassword,
 };
