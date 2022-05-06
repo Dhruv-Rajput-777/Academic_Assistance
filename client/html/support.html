@@ -1,13 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Support</title>
     <link rel="icon" type="image/x-icon" href="../images/favicon.png">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    No Support XD
+
+<body style="height: 100vh; width: 100vw;">
+    <div class="main-container w-full h-full flex items-center justify-center bg-gray-100">
+
+        <div class="mt-5 md:mt-0 md:col-span-2 border border-gray-200 overflow-hidden rounded-xl shadow-xl bg-white">
+            <h2 class="text-center pt-3 pb-1 font-bold">We're here to Assist you</h2>
+            <form action="#" method="POST">
+
+                <div class="px-4 py-5 space-y-6 sm:p-6">
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="col-span-3 sm:col-span-2">
+                            <label for="username" class="block text-sm font-medium text-gray-700">
+                                Your Name </label>
+                            <div class="mt-1 flex rounded-md shadow-sm">
+
+                                <input type="text" name="username" id="username"
+                                    class="border border-gray-200 rounded-md shadow-md flex-1 p-2 block w-full rounded-none rounded-r-md sm:text-sm focus:outline-none"
+                                    placeholder="Enter your name" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="col-span-3 sm:col-span-2">
+                            <label for="email" class="block text-sm font-medium text-gray-700">
+                                Email Address </label>
+                            <div class="mt-1 flex rounded-md shadow-sm">
+
+                                <input type="email" name="email" id="email"
+                                    class="border border-gray-200 rounded-md shadow-md flex-1 p-2 block w-full rounded-none rounded-r-md sm:text-sm focus:outline-none"
+                                    placeholder="example@gmail.com" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="about" class="block text-sm font-medium text-gray-700"> Query </label>
+                        <div class="mt-1">
+                            <textarea id="about" name="about" rows="5" cols="60"
+                                class="shadow-md p-2 focus:outline-none mt-1 block w-full sm:text-sm border border-gray-200 rounded-md"
+                                placeholder="Add your Queries here" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 pb-3 bg-gray-50 text-right sm:px-6">
+                    <button type="submit"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
+
 </html>

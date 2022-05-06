@@ -98,19 +98,6 @@ const hideModal = () => {
   modal.style.display = "none";
 };
 
-// to display name of uploaded file
-const setFileName = () => {
-  let files = document.querySelector("#file").files;
-  if (files.length > 0) {
-    document.querySelector("#file-name").innerText =
-      document.querySelector("#file").files[0].name;
-  } else {
-    document.querySelector("#file-name").innerText =
-      "No files selected (Max size: 10MB)";
-  }
-};
-setFileName();
-
 document.querySelector("#file").onchange = function () {
   document.querySelector("#file-name").textContent = this.files[0].name;
 };
